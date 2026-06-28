@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Islamic Zakat Calculator — Calculate Your Zakat Online</title>
+  <meta name="description" content="Free Islamic Zakat Calculator. Calculate your annual Zakat on gold, silver, cash, property and investments based on Islamic principles.">
+  <meta name="keywords" content="zakat calculator, islamic zakat, zakat on gold, zakat on silver, nisab, zakat 2024">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark: #0F6E56;
+      --green-mid: #1D9E75;
+      --green-light: #E1F5EE;
+      --green-border: #5DCAA5;
+      --green-text: #085041;
+      --surface: #ffffff;
+      --surface-alt: #f8f9fa;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text: #1a202c;
+      --text-secondary: #4a5568;
+      --text-muted: #718096;
+      --danger-bg: #fff5f5;
+      --danger-text: #c53030;
+      --radius: 8px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0faf6;
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 0 3rem;
+    }
+
+    /* Header */
+    .site-header {
+      background: linear-gradient(135deg, #0a5c47 0%, #1D9E75 60%, #2dc68f 100%);
+      padding: 3rem 1rem 2.5rem;
+      text-align: center;
+      color: white;
+    }
+    .arabic-text {
+      font-size: 48px;
+      letter-spacing: 4px;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .site-header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .site-header p {
+      font-size: 15px;
+      opacity: 0.88;
+    }
+    .hadith {
+      margin-top: 1.25rem;
+      font-size: 13px;
+      opacity: 0.75;
+      font-style: italic;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Layout */
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .main-content {
+      margin-top: -1rem;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .card-title .icon {
+      width: 30px;
+      height: 30px;
+      background: var(--green-light);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    /* Form fields */
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .field-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .field-group label {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+    .field-group input, .field-group select {
+      padding: 9px 12px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--surface);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      width: 100%;
+    }
+    .field-group input:focus, .field-group select:focus {
+      outline: none;
+      border-color: var(--green-mid);
+      box-shadow: 0 0 0 3px rgba(29,158,117,0.12);
+    }
+    .field-group input::placeholder { color: #a0aec0; }
+
+    /* Currency row */
+    .currency-row {
+      display: flex;
+      gap: 14px;
+      align-items: flex-end;
+      margin-bottom: 1rem;
+    }
+    .currency-row .field-group { flex: 1; }
+
+    /* Nisab info */
+    .nisab-info {
+      background: var(--green-light);
+      border: 1px solid var(--green-border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--green-text);
+      margin-top: 1rem;
+      line-height: 1.7;
+    }
+    .nisab-info strong { font-weight: 600; }
+
+    /* Calculate button */
+    .calc-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--green-mid);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.15s, transform 0.1s;
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .calc-btn:hover { background: var(--green-dark); }
+    .calc-btn:active { transform: scale(0.99); }
+
+    /* Results */
+    .results-section { display: none; margin-top: 1.5rem; }
+    .results-section.visible { display: block; }
+
+    .result-hero {
+      background: linear-gradient(135deg, #0a5c47, #1D9E75);
+      border-radius: 12px;
+      padding: 2rem;
+      color: white;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .result-hero .label { font-size: 14px; opacity: 0.8; margin-bottom: 6px; }
+    .result-hero .amount { font-size: 42px; font-weight: 600; margin-bottom: 4px; }
+    .result-hero .sub { font-size: 13px; opacity: 0.75; }
+
+    .eligibility-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 18px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .pill-yes { background: var(--green-light); color: var(--green-text); border: 1px solid var(--green-border); }
+    .pill-no { background: #fff5f5; color: #c53030; border: 1px solid #feb2b2; }
+
+    .breakdown-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+    .breakdown-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+    }
+    .breakdown-item .b-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+    .breakdown-item .b-value { font-size: 15px; font-weight: 600; color: var(--text); }
+    .breakdown-item .b-zakat { font-size: 12px; color: var(--green-mid); margin-top: 3px; }
+    .breakdown-item.deduction .b-value { color: var(--danger-text); }
+
+    .summary-card {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .summary-row:last-child { border-bottom: none; font-weight: 600; font-size: 15px; color: var(--green-dark); }
+    .summary-row .s-label { color: var(--text-secondary); }
+
+    .note-box {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.7;
+      padding: 1rem;
+      background: var(--surface-alt);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-bottom: 1rem;
+    }
+
+    .reset-btn {
+      width: 100%;
+      padding: 11px;
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      font-size: 14px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.15s;
+    }
+    .reset-btn:hover { background: var(--surface-alt); }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 13px;
+      color: var(--text-muted);
+      padding: 0 1rem;
+    }
+    footer a { color: var(--green-mid); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .field-grid, .field-grid.three, .breakdown-grid { grid-template-columns: 1fr; }
+      .site-header h1 { font-size: 22px; }
+      .arabic-text { font-size: 36px; }
+      .result-hero .amount { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="arabic-text">زَكَاة</div>
+  <h1>Islamic Zakat Calculator</h1>
+  <p>Calculate your annual Zakat based on Islamic principles</p>
+  <p class="hadith">"Take from their wealth a charity by which you purify and cause them increase." — Quran 9:103</p>
+</header>
+
+<div class="container">
+  <div class="main-content">
+
+    <!-- Currency & Settings -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <div class="card-title">
+        <div class="icon">💱</div>
+        Currency & Gold/Silver Prices
+      </div>
+      <div class="currency-row">
+        <div class="field-group" style="flex: 1.2;">
+          <label>Select Currency</label>
+          <select id="currency" onchange="updateCurrency()">
+            <option value="USD">🇺🇸 USD — US Dollar</option>
+            <option value="PKR" selected>🇵🇰 PKR — Pakistani Rupee</option>
+            <option value="SAR">🇸🇦 SAR — Saudi Riyal</option>
+            <option value="EUR">🇪🇺 EUR — Euro</option>
+            <option value="GBP">🇬🇧 GBP — British Pound</option>
+            <option value="AED">🇦🇪 AED — UAE Dirham</option>
+            <option value="BDT">🇧🇩 BDT — Bangladeshi Taka</option>
+            <option value="INR">🇮🇳 INR — Indian Rupee</option>
+            <option value="MYR">🇲🇾 MYR — Malaysian Ringgit</option>
+            <option value="IDR">🇮🇩 IDR — Indonesian Rupiah</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Gold price per gram</label>
+          <input type="number" id="goldPrice" placeholder="e.g. 26000" min="0" oninput="updateNisab()">
+        </div>
+        <div class="field-group">
+          <label>Silver price per gram</label>
+          <input type="number" id="silverPrice" placeholder="e.g. 300" min="0" oninput="updateNisab()">
+        </div>
+      </div>
+      <div class="nisab-info" id="nisab-display"></div>
+    </div>
+
+    <!-- Gold & Silver -->
+    <div class="card">
+      <div class="card-title"><div class="icon">🥇</div> Gold & Silver Holdings</div>
+      <div class="field-grid three">
+        <div class="field-group">
+          <label>Gold quantity (grams)</label>
+          <input type="number" id="goldQty" placeholder="e.g. 50" min="0">
+        </div>
+        <div class="field-group">
+          <label>Silver quantity (grams)</label>
+          <input type="number" id="silverQty" placeholder="e.g. 595" min="0">
+        </div>
+        <div class="field-group">
+          <label>Jewelry value (total)</label>
+          <input type="number" id="jewelryVal" placeholder="e.g. 50000" min="0">
+        </div>
+      </div>
+    </div>
+
+    <!-- Cash & Savings -->
+    <div class="card">
+      <div class="card-title"><div class="icon">🏦</div> Cash & Savings</div>
+      <div class="field-grid">
+        <div class="field-group">
+          <label>Cash in hand</label>
+          <input type="number" id="cashHand" placeholder="e.g. 50000" min="0">
+        </div>
+        <div class="field-group">
+          <label>Bank savings / deposits</label>
+          <input type="number" id="bankSavings" placeholder="e.g. 200000" min="0">
+        </div>
+        <div class="field-group">
+          <label>Business cash / stock value</label>
+          <input type="number" id="businessCash" placeholder="e.g. 100000" min="0">
+        </div>
+        <div class="field-group">
+          <label>Money others owe you</label>
+          <input type="number" id="moneyOwed" placeholder="e.g. 30000" min="0">
+        </div>
+      </div>
+    </div>
+
+    <!-- Property & Investments -->
+    <div class="card">
+      <div class="card-title"><div class="icon">🏠</div> Property & Investments</div>
+      <div class="field-grid">
+        <div class="field-group">
+          <label>Rental income (annual)</label>
+          <input type="number" id="rentalIncome" placeholder="e.g. 120000" min="0">
+        </div>
+        <div class="field-group">
+          <label>Property for resale (value)</label>
+          <input type="number" id="resaleProperty" placeholder="e.g. 500000" min="0">
+        </div>
+        <div class="field-group">
+          <label>Shares / stocks value</label>
+          <input type="number" id="investments" placeholder="e.g. 150000" min="0">
+        </div>
+        <div class="field-group">
+          <label>Other zakatable assets</label>
+          <input type="number" id="otherAssets" placeholder="e.g. 20000" min="0">
+        </div>
+      </div>
+    </div>
+
+    <!-- Liabilities -->
+    <div class="card">
+      <div class="card-title"><div class="icon">➖</div> Liabilities & Deductions</div>
+      <div class="field-grid">
+        <div class="field-group">
+          <label>Debts / loans you owe</label>
+          <input type="number" id="debts" placeholder="e.g. 50000" min="0">
+        </div>
+        <div class="field-group">
+          <label>Immediate expenses due</label>
+          <input type="number" id="expenses" placeholder="e.g. 20000" min="0">
+        </div>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calculateZakat()">
+      ⚖️ Calculate My Zakat
+    </button>
+
+    <!-- Results -->
+    <div class="results-section" id="results">
+
+      <div style="text-align:center; margin: 1.25rem 0 0.75rem;">
+        <span class="eligibility-pill" id="eligibility-pill"></span>
+      </div>
+
+      <div class="result-hero">
+        <div class="label">Your Zakat Due (2.5%)</div>
+        <div class="amount" id="zakat-amount"></div>
+        <div class="sub" id="zakat-sub"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><div class="icon">📊</div> Wealth Breakdown</div>
+        <div class="breakdown-grid" id="breakdown-grid"></div>
+      </div>
+
+      <div class="summary-card">
+        <div class="summary-row">
+          <span class="s-label">Total assets</span>
+          <span id="s-total"></span>
+        </div>
+        <div class="summary-row">
+          <span class="s-label">Total deductions</span>
+          <span id="s-deductions" style="color:#c53030;"></span>
+        </div>
+        <div class="summary-row">
+          <span class="s-label">Net zakatable wealth</span>
+          <span id="s-net"></span>
+        </div>
+        <div class="summary-row">
+          <span class="s-label">Zakat due (2.5%)</span>
+          <span id="s-zakat"></span>
+        </div>
+      </div>
+
+      <div class="note-box">
+        Zakat rate is <strong>2.5%</strong> of total zakatable assets above the nisab threshold.<br>
+        Nisab is based on <strong>85g of gold</strong> or <strong>595g of silver</strong> — the lower value is used (silver nisab).<br>
+        Property you live in, vehicles for personal use, and household items are <strong>not zakatable</strong>.<br>
+        Please consult a qualified Islamic scholar for guidance on your specific situation.
+      </div>
+
+      <button class="reset-btn" onclick="resetForm()">↺ Reset & Recalculate</button>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>This calculator is for guidance only. Always consult a qualified Islamic scholar for your personal Zakat.</p>
+  <p style="margin-top: 6px;">Made with ❤️ for the Muslim community</p>
+</footer>
+
+<script>
+  const NISAB_GOLD_G = 85;
+  const NISAB_SILVER_G = 595;
+  const ZAKAT_RATE = 0.025;
+
+  const DEFAULT_GOLD = { USD:95, PKR:26000, SAR:356, EUR:87, GBP:75, AED:349, BDT:10400, INR:7900, MYR:445, IDR:1530000 };
+  const DEFAULT_SILVER = { USD:1.1, PKR:300, SAR:4.1, EUR:1.0, GBP:0.87, AED:4.0, BDT:120, INR:91, MYR:5.1, IDR:17700 };
+  const SYMBOLS = { USD:'$', PKR:'₨', SAR:'﷼', EUR:'€', GBP:'£', AED:'د.إ', BDT:'৳', INR:'₹', MYR:'RM', IDR:'Rp' };
+
+  let cur = 'PKR', sym = '₨';
+
+  function fmt(n) { return sym + n.toLocaleString(undefined, { maximumFractionDigits: 0 }); }
+  function val(id) { return parseFloat(document.getElementById(id).value) || 0; }
+
+  function updateCurrency() {
+    cur = document.getElementById('currency').value;
+    sym = SYMBOLS[cur];
+    const gp = document.getElementById('goldPrice');
+    const sp = document.getElementById('silverPrice');
+    gp.value = DEFAULT_GOLD[cur];
+    sp.value = DEFAULT_SILVER[cur];
+    updateNisab();
+  }
+
+  function updateNisab() {
+    const gp = parseFloat(document.getElementById('goldPrice').value) || DEFAULT_GOLD[cur];
+    const sp = parseFloat(document.getElementById('silverPrice').value) || DEFAULT_SILVER[cur];
+    const nGold = gp * NISAB_GOLD_G;
+    const nSilver = sp * NISAB_SILVER_G;
+    const nUsed = Math.min(nGold, nSilver);
+    document.getElementById('nisab-display').innerHTML =
+      `<strong>Nisab thresholds:</strong> Gold (85g) = ${fmt(nGold)} &nbsp;|&nbsp; Silver (595g) = ${fmt(nSilver)}<br>
+      <strong>Using silver nisab (lower):</strong> ${fmt(nUsed)} — zakat is due if your net wealth exceeds this.`;
+    return { gp, sp, nUsed };
+  }
+
+  function calculateZakat() {
+    const { gp, sp, nUsed } = updateNisab();
+
+    const goldVal = gp * val('goldQty');
+    const silverVal = sp * val('silverQty');
+    const jewelryVal = val('jewelryVal');
+    const cashHand = val('cashHand');
+    const bankSavings = val('bankSavings');
+    const businessCash = val('businessCash');
+    const moneyOwed = val('moneyOwed');
+    const rentalIncome = val('rentalIncome');
+    const resaleProperty = val('resaleProperty');
+    const investments = val('investments');
+    const otherAssets = val('otherAssets');
+    const debts = val('debts');
+    const expenses = val('expenses');
+
+    const totalAssets = goldVal + silverVal + jewelryVal + cashHand + bankSavings +
+      businessCash + moneyOwed + rentalIncome + resaleProperty + investments + otherAssets;
+    const totalDeductions = debts + expenses;
+    const netZakatable = Math.max(0, totalAssets - totalDeductions);
+    const zakatDue = netZakatable >= nUsed ? netZakatable * ZAKAT_RATE : 0;
+    const eligible = netZakatable >= nUsed;
+
+    document.getElementById('eligibility-pill').className = 'eligibility-pill ' + (eligible ? 'pill-yes' : 'pill-no');
+    document.getElementById('eligibility-pill').textContent = eligible
+      ? '✓ Zakat is obligatory on you'
+      : '✗ Below nisab — Zakat not obligatory';
+
+    document.getElementById('zakat-amount').textContent = fmt(zakatDue);
+    document.getElementById('zakat-sub').textContent = eligible
+      ? `Net zakatable wealth: ${fmt(netZakatable)} × 2.5%`
+      : `Your wealth (${fmt(netZakatable)}) is below nisab (${fmt(nUsed)})`;
+
+    const items = [
+      { label: 'Gold value', v: goldVal },
+      { label: 'Silver value', v: silverVal },
+      { label: 'Jewelry value', v: jewelryVal },
+      { label: 'Cash in hand', v: cashHand },
+      { label: 'Bank savings', v: bankSavings },
+      { label: 'Business assets', v: businessCash },
+      { label: 'Money owed to you', v: moneyOwed },
+      { label: 'Rental income', v: rentalIncome },
+      { label: 'Resale property', v: resaleProperty },
+      { label: 'Investments', v: investments },
+      { label: 'Other assets', v: otherAssets },
+    ].filter(i => i.v > 0);
+
+    document.getElementById('breakdown-grid').innerHTML = items.map(i => `
+      <div class="breakdown-item">
+        <div class="b-label">${i.label}</div>
+        <div class="b-value">${fmt(i.v)}</div>
+        <div class="b-zakat">Zakat: ${fmt(i.v * ZAKAT_RATE)}</div>
+      </div>
+    `).join('') + (totalDeductions > 0 ? `
+      <div class="breakdown-item deduction">
+        <div class="b-label">Total deductions</div>
+        <div class="b-value">-${fmt(totalDeductions)}</div>
+        <div class="b-zakat">Debts + expenses</div>
+      </div>` : '');
+
+    document.getElementById('s-total').textContent = fmt(totalAssets);
+    document.getElementById('s-deductions').textContent = '-' + fmt(totalDeductions);
+    document.getElementById('s-net').textContent = fmt(netZakatable);
+    document.getElementById('s-zakat').textContent = fmt(zakatDue);
+
+    const results = document.getElementById('results');
+    results.classList.add('visible');
+    results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function resetForm() {
+    document.querySelectorAll('input[type="number"]').forEach(i => i.value = '');
+    document.getElementById('results').classList.remove('visible');
+    updateNisab();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  updateCurrency();
+</script>
+</body>
+</html>
